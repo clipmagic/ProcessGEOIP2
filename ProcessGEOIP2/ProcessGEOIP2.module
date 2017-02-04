@@ -1,0 +1,62 @@
+<?php 
+/**
+ * ProcessGEOIP2 (0.0.1)
+ * Creates a PW wrapper for the GEOIP2 API. Master at https://github.com/maxmind/GeoIP2php
+ * 
+ * @author Clip Magic
+ * 
+ * ProcessWire 3.x
+ * Copyright (C) 2011 by Ryan Cramer
+ * Licensed under GNU/GPL v2, see LICENSE.TXT
+ * 
+ * http://www.processwire.com
+ * http://www.ryancramer.com
+ * 
+ * This product includes GeoLite2 data created by MaxMind, available from http://www.maxmind.com.
+ */
+
+ 
+require_once 'vendor/autoload.php';
+use GeoIp2\Database\Reader;  
+ 
+class ProcessGEOIP2 extends Process implements Module {
+
+	public static function getModuleInfo() {
+		return array(
+			'title' => "ProcessGEOIP2",
+			'version' => "0.0.1",
+			'summary' => "Creates a PW wrapper for the GEOIP2 API. Master at https://github.com/maxmind/GeoIP2php",
+			'author' => "Clip Magic",
+			'autoload' => false,
+			'singular' => false,
+			'permanent' => false,
+			'requires' => array("PHP>=5.4.0", "ProcessWire>=3.0", "")
+		);
+	}
+
+	public function init() {
+		parent::init();
+
+    }
+
+
+    function ___getReader () {
+        
+        // Instantiate the Reader object. Cannot be done in function _init() as it has an abstract class                        
+        $dbFile = __DIR__ . '/vendor/geoip2/geoip2/maxmind-db/GeoLite2-Country.mmdb';       
+        $reader = new \GeoIp2\Database\Reader($dbFile);
+        return $reader;
+    }
+
+
+    
+    public function ___install() {
+        
+    }
+
+    public function ___uninstall() {
+        
+    }
+
+}
+
