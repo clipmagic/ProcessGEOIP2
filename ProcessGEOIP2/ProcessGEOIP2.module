@@ -21,21 +21,21 @@ use GeoIp2\Database\Reader;
  
 class ProcessGEOIP2 extends Process implements Module {
 
-	public static function getModuleInfo() {
-		return array(
-			'title' => "ProcessGEOIP2",
-			'version' => "0.0.1",
-			'summary' => "Creates a PW wrapper for the GEOIP2 API. Master at https://github.com/maxmind/GeoIP2php",
-			'author' => "Clip Magic",
-			'autoload' => false,
-			'singular' => false,
-			'permanent' => false,
-			'requires' => array("PHP>=5.4.0", "ProcessWire>=3.0", "")
-		);
-	}
+    public static function getModuleInfo() {
+        return array(
+            'title' => "ProcessGEOIP2",
+            'version' => "0.0.1",
+            'summary' => "Creates a PW wrapper for the GEOIP2 API. Master at https://github.com/maxmind/GeoIP2php",
+            'author' => "Clip Magic",
+            'autoload' => false,
+            'singular' => false,
+            'permanent' => false,
+            'requires' => array("PHP>=5.4.0", "ProcessWire>=3.0", "")
+        );
+    }
 
-	public function init() {
-		parent::init();
+    public function init() {
+        parent::init();
 
     }
 
@@ -48,6 +48,14 @@ class ProcessGEOIP2 extends Process implements Module {
         return $reader;
     }
 
+  public function ___getIP()
+  {
+    $v='';
+    $v= (!empty($_SERVER['REMOTE_ADDR']))?$_SERVER['REMOTE_ADDR'] :((!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR']: @getenv('REMOTE_ADDR'));
+    if(isset($_SERVER['HTTP_CLIENT_IP']))
+        $v=$_SERVER['HTTP_CLIENT_IP'];
+    return htmlspecialchars($v,ENT_QUOTES);
+  }
 
     
     public function ___install() {
@@ -59,4 +67,3 @@ class ProcessGEOIP2 extends Process implements Module {
     }
 
 }
-
